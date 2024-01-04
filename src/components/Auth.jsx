@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, json, useNavigate } from 'react-router-dom'
 import auth from '../assets/655.jpg'
 import Header from './Header'
@@ -6,9 +6,13 @@ import Form from 'react-bootstrap/Form';
 import { loginAPI, registerAPI } from '../services/allAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isAuthTokenContext } from '../context/ContextShare';
 
 
 function Auth({register}) {
+
+    const {isAuthenticated, setIsAuthenticated} = useContext(isAuthTokenContext)
+
     const [userData, setUserData] = useState({
         username:"",
         email:"",
@@ -58,6 +62,7 @@ const handleLogin = async(e)=>{
         console.log(result);
 
         if(result.status===200){
+            setIsAuthenticated(true)
             //store data
             // in session storage key:string, value:string
             sessionStorage.setItem("existsUser",JSON.stringify(result.data.existsUser))
@@ -114,7 +119,7 @@ const handleLogin = async(e)=>{
                         </Form.Group>
 
                         <Form.Group style={{width:'100%'}} className=" ms-4 mb-3" controlId="exampleForm.ControlInput1">
-                         <Form.Control value={userData.password} onChange={(e)=>setUserData({...userData,password:e.target.value})} type="email" placeholder="Enter Your Password" />
+                         <Form.Control value={userData.password} onChange={(e)=>setUserData({...userData,password:e.target.value})} type="password" placeholder="Enter Your Password" />
                         </Form.Group>
                         {RegisterForm?
                         <div>

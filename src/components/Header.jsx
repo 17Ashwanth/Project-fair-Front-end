@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { isAuthTokenContext } from '../context/ContextShare'
 
 function Header({dashboard}) {
+  const navigate = useNavigate()
+  const {isAuthenticated, setIsAuthenticated} = useContext(isAuthTokenContext)
+
+  const handleLogout = ()=>{
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("existsUser")
+    navigate('/')
+    setIsAuthenticated(false)
+  } 
   return (
     <>
     <div style={{backgroundColor:'yellowgreen'}} className='d-flex justify-content-between ps-3 p-1'>
@@ -9,7 +20,7 @@ function Header({dashboard}) {
       <h1 style={{color:'white'}} className='ms-3'>Project Fair</h1>
     </div>
     {dashboard &&
-    <button className='btn btn-dark text-white me-3'>Logout<i style={{color:'white'}} class="fa-solid fa-power-off ms-2 fs-6"></i></button>
+    <button onClick={handleLogout} className='btn btn-dark text-white me-3'>Logout<i style={{color:'white'}} class="fa-solid fa-power-off ms-2 fs-6"></i></button>
     }
     </div>
     

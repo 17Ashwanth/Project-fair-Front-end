@@ -1,3 +1,1 @@
-export const BASE_URL = 'https://expense-backend-w76l.onrender.com'
-
-'
+export const BASE_URL = 'http://localhost:4500'

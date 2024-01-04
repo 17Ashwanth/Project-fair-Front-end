@@ -3,13 +3,24 @@ import { Col, Row } from 'react-bootstrap'
 import titleImage from '../assets/programmer_v_02.jpg'
 import ProjectCard from '../components/ProjectCard'
 import { Link } from 'react-router-dom'
+import { homeProjectAPI } from '../services/allAPI'
 
 function Home() {
 const [isLogin,setIsLogin] = useState(false)
+const [homeProject,setHomeproject] = useState([])
     useEffect(()=>{
         if(sessionStorage.getItem("token")){
             setIsLogin(true)
         }
+    },[])
+
+    const getHomeProject = async()=>{
+        const result = await homeProjectAPI()
+        console.log(result.data);
+        setHomeproject(result.data)
+    }
+    useEffect(()=>{
+        getHomeProject()
     },[])
 
   return (
@@ -43,15 +54,13 @@ const [isLogin,setIsLogin] = useState(false)
         <h1 className="text-center">Explore Our Projects</h1>
         <marquee scrollAmount={20} className='mt-5'>
             <div className="d-flex">
-                <div className='ms-5' style={{width:'500px'}}>
-                <ProjectCard/>
-                </div>
-                <div className='ms-5' style={{width:'500px'}}>
-                <ProjectCard/>
-                </div>
-                <div className='ms-5' style={{width:'500px'}}>
-                <ProjectCard/>
-                </div>
+                {
+                    homeProject?.length>0?
+                    homeProject?.map((item)=>(<div className='ms-5' style={{width:'500px'}}>
+                    <ProjectCard project={item}/>
+                    </div>))
+                    :null
+                }
             </div>
         </marquee>
 

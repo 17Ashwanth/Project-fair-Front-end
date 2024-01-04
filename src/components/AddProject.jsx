@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { addProjectAPI } from '../services/allAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addProjectResponseContext, editProjectResponseContext } from '../context/ContextShare';
 
 function AddProject() {
+
+
+// useContext hook is used to access the context
+  const {addProjectResponse, setAddProjectResponse} = useContext(addProjectResponseContext)
 
     // state to hold values from input box
     const [projectDetails, setProjectDetails]=useState({
@@ -107,13 +112,14 @@ function AddProject() {
             const result = await addProjectAPI(reqBody,reqHeader)
             console.log(result);
             if(result.status === 200)
-            {
-              alert("Project Added Succesfully");
+            { console.log(result);
+              toast.success("Project Added Succesfully");
               handleClose()
+              setAddProjectResponse(result.data)
             }
             else
             {
-              alert(result.response.data)
+              toast.error('Failed to Add Project',result.response.data)
               handleClosed()
             }
   
@@ -131,7 +137,7 @@ function AddProject() {
 
     <Modal show={show} onHide={handleClose} size='lg'>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Add Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="row">

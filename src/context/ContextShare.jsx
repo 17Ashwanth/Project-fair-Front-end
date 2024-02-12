@@ -10,7 +10,7 @@ function ContextShare({children}) {
     // data to share
     const [addProjectResponse, setAddProjectResponse]= useState({})
     const [editProjectResponse, setEditProjectResponse]= useState({})
-    const [isAuthenticated, setIsAuthenticated] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
   return (
     <>
     {/* provider - provide the data to the components

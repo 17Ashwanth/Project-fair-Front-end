@@ -163,7 +163,7 @@ function EditProject({project}) {
           Cancel
         </Button>
         <Button variant="success" onClick={handleUpdate}>
-          Add
+          Update
         </Button>
       </Modal.Footer>
     </Modal>

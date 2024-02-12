@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import titleImage from '../assets/programmer_v_02.jpg'
 import ProjectCard from '../components/ProjectCard'
 import { Link } from 'react-router-dom'
 import { homeProjectAPI } from '../services/allAPI'
+import { isAuthTokenContext } from '../context/ContextShare'
 
 function Home() {
+    const {isAuthenticated, setIsAuthenticated} =useContext(isAuthTokenContext)
 const [isLogin,setIsLogin] = useState(false)
 const [homeProject,setHomeproject] = useState([])
     useEffect(()=>{
@@ -33,10 +35,10 @@ const [homeProject,setHomeproject] = useState([])
                     <p>One Step Destiantion for all Software Devlopemnt Projects</p>
             {isLogin ?
             <Link to={'/dashboard'}>
-                        <button  className='btn btn-dark rounded'>Manage project <i class="fa-solid fa-arrow-right 2s-3"></i> </button>
+                        <button onClick={()=>setIsAuthenticated(true)}  className='btn btn-dark rounded'>Manage project <i class="fa-solid fa-arrow-right 2s-3"></i> </button>
     
             </Link>:               
-            <Link to={'/register'}>
+            <Link to={'/login'}>
                         <button  className='btn btn-dark rounded'>Get Started <i class="fa-solid fa-arrow-right 2s-3"></i> </button>
     
             </Link>}               
